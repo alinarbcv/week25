@@ -3,6 +3,8 @@ import './App.css';
 import { Pie } from 'react-chartjs-2';
 import Chart from 'chart.js/auto';
 import Counter from './Counter';
+import Form from './Form';
+import { useState } from 'react';
 
 function App() {
   const data = {
@@ -26,6 +28,16 @@ function App() {
       },
     ],
   };
+  const [newItem,setNewItem]=useState("")
+  const [items, setItems] = useState([]);
+
+  const addItem = (e) => {
+    e.preventDefault();
+    if (newItem.trim() !== "") {
+      setItems([...items, newItem]);
+      setNewItem("");
+    }
+  };
   return (
     <div className="App"> 
     <div style={{width:'400px',height:'400px'}}>
@@ -33,6 +45,12 @@ function App() {
     </div>
     <h1>React Counter</h1>
       <Counter />
+      <Form newItem={newItem} setNewItem={setNewItem} addItem={addItem}/>
+      <ul>
+        {items.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
     </div>
   );
 }
